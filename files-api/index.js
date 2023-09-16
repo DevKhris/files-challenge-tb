@@ -1,9 +1,12 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 
-const port = 8080
+const port = 8080;
 
-app.use(express.json({ type: 'application/json' }))
+const filesRoutes = require("./routes/files.routes");
 
-app.listen(port, () => console.log(`Running on http://localhost${port}`)
-)
+app.use(express.json({ type: "application/json" }));
+
+app.use("/files", filesRoutes);
+
+app.listen(port, () => console.log(`Running on http://localhost${port}`));
