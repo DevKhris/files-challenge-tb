@@ -1,7 +1,9 @@
 const fetch = require("node-fetch");
 
+// Get files function which uses the endpoint url and a authorization token
 async function getFiles(apiURl, token) {
   try {
+    // Fetch files from API with authorization headers and GET method
     return await fetch(`${apiURl}/files`, {
       method: "GET",
       withCredentials: true,

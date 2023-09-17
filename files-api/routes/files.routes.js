@@ -4,25 +4,49 @@ const router = Router();
 const apiURL = "https://echo-serv.tbxnet.com/v1/secret";
 const token = "Bearer aSuperSecretKey";
 const getFiles = require("../utils/getFiles");
-const getFormatCsv = require("../utils/getFormatCsv");
+const getFormattedCsv = require("../utils/getFormattedCsv");
 
 router.get("/data", async (req, res) => {
-  const filesData = await getFiles(apiURL, token);
-  const results = [];
+  try {
+    const results = [];
 
-  for (file of filesData.files) {
-    let result = await getFormatCsv(apiURL, file, token);
+    const filesData = await getFiles(apiURL, token);
+    for (fileName of filesData.files) {
+      const result = await getFormattedCsv(apiURL, fileName, token);
+      results.push(result);
+    }
 
-    results.push(result);
+    if (req.query.fileName) {
+      let fileName = req.query.fileName;
+
+      const filteredResult = results
+        .flat()
+        .filter((obj) => obj.file === fileName);
+      res.json(filteredResult).status(200);
+    } else {
+      res.json(results.flat()).status(200);
+    }
+  } catch (err) {
+    res
+      .json({
+        message: err.message,
+      })
+      .status(500);
   }
-
-  res.json(results.flat()).status(200);
 });
 
-router.get("/list", async (req, res) => {
-  const filesData = await getFiles(apiURL, token);
+router.get("/list", async (_, res) => {
+  try {
+    const filesData = await getFiles(apiURL, token);
 
-  res.json(filesData).status(200);
+    res.json(filesData).status(200);
+  } catch (err) {
+    res
+      .json({
+        message: err.message,
+      })
+      .status(500);
+  }
 });
 
 module.exports = router;
