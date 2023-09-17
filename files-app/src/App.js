@@ -56,13 +56,18 @@ function App() {
       <main>
         <Container>
           {error && <Alert className="my-5 alert-danger">{error}</Alert>}
-          <Form.Control
-            className="mt-5"
-            placeholder="Search for a file"
-            type="text"
-            aria-describedby="searchBlock"
-            onChange={handleInputChange}
-          />
+          <Form>
+            <Form.Group>
+              <Form.Control
+                className="mt-5"
+                placeholder="Search a file"
+                type="text"
+                aria-describedby="searchBlock"
+                data-testid="search-id"
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Form>
           {loading && <p className="my-3 text-center">Loading...</p>}
           <Suspense>
             <Table responsive className="my-5" striped>
