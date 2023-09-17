@@ -1,3 +1,4 @@
+import Alert from "react-bootstrap/Alert";
 import { useEffect, useState, useMemo } from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -5,8 +6,15 @@ import Table from "react-bootstrap/Table";
 
 function App() {
   const [files, setFiles] = useState([]);
-
-  useEffect(() => {}, [files]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    fetch(`http://localhost:8080/files/data`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFiles(data);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
 
   return (
     <div>
@@ -19,6 +27,7 @@ function App() {
       </Navbar>
       <main>
         <Container>
+          {error && <Alert className="mt-5 alert-danger">{error}</Alert>}
           <Table responsive className="mt-5">
             <thead>
               <tr>
