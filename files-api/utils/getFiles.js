@@ -1,8 +1,6 @@
 const fetch = require("node-fetch");
 
-const token = "Bearer aSuperSecretKey";
-
-async function getFiles(apiURl) {
+async function getFiles(apiURl, token) {
   try {
     return await fetch(`${apiURl}/files`, {
       method: "GET",

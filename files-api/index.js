@@ -5,7 +5,8 @@ const port = 8080;
 
 const filesRoutes = require("./routes/files.routes");
 
-app.use(express.json({ type: "application/json" }));
+app.use(express.json({ type: "application/json", strict: true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/files", filesRoutes);
 
