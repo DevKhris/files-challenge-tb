@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./files-app
+      dockerfile: dockerfile.app
+
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/files-app
+      - /files-app/node_modules
+
+  api:
+    build:
+      context: ./files-api
+      dockerfile: dockerfile.api
+
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/files-api
+      - /files-api/node_modules
